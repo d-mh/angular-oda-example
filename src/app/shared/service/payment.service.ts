@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -12,7 +12,9 @@ export class PaymentService {
   ) { }
 
   sendDataBackToODA(callbackUrl: string, data: any): Observable<any> {
-
-    return this._http.post(callbackUrl, data, { responseType: 'text' });
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'text/plain');
+    
+    return this._http.post(callbackUrl, data, { headers });
   }
 }
