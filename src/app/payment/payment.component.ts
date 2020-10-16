@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { PaymentService } from '../shared/service/payment.service';
 
 interface OdaParams {
   userId: string;
@@ -18,6 +19,7 @@ export class PaymentComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
+    private _service: PaymentService,
   ) { }
 
   ngOnInit(): void {
@@ -36,10 +38,26 @@ export class PaymentComponent implements OnInit {
 
   returnSuccess(): void {
     console.log('success');
+
+    const successData = {
+      status: 'success',
+      userId: 'changed by backend: ' + this.params.userId,
+      paymentId: 'changed by backend: ' + this.params.paymentId,
+    };
+
+    this._service.sendDataBackToODA(this.params.callbackUrl, successData);
   }
 
   returnFailure(): void {
     console.log('failure');
+
+    const failureData = {
+      status: 'failure',
+      userId: 'changed by backend: ' + this.params.userId,
+      paymentId: 'changed by backend: ' + this.params.paymentId,
+    };
+
+    this._service.sendDataBackToODA(this.params.callbackUrl, failureData);
   }
 
 }
