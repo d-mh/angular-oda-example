@@ -14,7 +14,7 @@ export class PaymentService {
   sendDataBackToODA(callbackUrl: string, data: any): Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'text/plain');
-    
-    return this._http.post(callbackUrl, data, { headers });
+
+    return this._http.post(callbackUrl, 'data', { headers });
   }
 }
