@@ -53,8 +53,6 @@ export class PaymentComponent implements OnInit {
 
     const failureData = {
       status: 'failure',
-      userId: 'changed by backend: ' + this.params.userId,
-      paymentId: 'changed by backend: ' + this.params.paymentId,
     };
 
     this._service.sendDataBackToODA(this.params.callbackUrl, failureData);
