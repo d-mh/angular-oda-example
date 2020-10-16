@@ -13,6 +13,6 @@ export class PaymentService {
 
   sendDataBackToODA(callbackUrl: string, data: any): Observable<any> {
 
-    return this._http.post(callbackUrl, data);
+    return this._http.post(callbackUrl, data, { responseType: 'text' });
   }
 }
