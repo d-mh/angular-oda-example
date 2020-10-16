@@ -4,7 +4,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'payment', loadChildren: () => import('./payment/payment.module').then(m => m.PaymentModule) },
-  { path: '', redirectTo: '/payment', pathMatch: 'full' },
+  { path: 'gps', loadChildren: () => import('./gps/gps.module').then(m => m.GpsModule) },
+  // { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
 

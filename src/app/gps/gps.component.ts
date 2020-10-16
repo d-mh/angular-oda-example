@@ -3,20 +3,20 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { ODAWebviewService } from '../shared/service/oda.webview.service';
 
 interface OdaParams {
-  userId: string;
-  paymentId: string;
   callbackUrl: string;
   restCallbackUrl: string;
 }
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+  selector: 'app-gps',
+  templateUrl: './gps.component.html',
+  styleUrls: ['./gps.component.scss']
 })
-export class PaymentComponent implements OnInit {
+export class GpsComponent implements OnInit {
 
   params: OdaParams;
+  title: any;
+
 
   constructor(
     private _route: ActivatedRoute,
@@ -24,27 +24,42 @@ export class PaymentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.setOdaParams(this._route.snapshot.queryParams);
     console.log('params: ', this.params);
+
+    this.getLocation();
   }
 
   setOdaParams(_params: Params): void {
     this.params = {
-      userId: _params.userId,
-      paymentId: _params.paymentId,
       callbackUrl: _params.callbackUrl,
       restCallbackUrl: _params.restCallbackUrl,
     };
   }
 
-  returnSuccess(): void {
-    console.log('success');
+  getLocation(): void {
 
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(postion => {
+        console.log('pos', postion);
+        this.title = `lat: ${postion.coords.latitude}; lng: ${postion.coords.longitude}`;
+
+        this.sendSuccess(postion);
+      });
+    } else {
+      console.log('navigator not allowed here');
+      this.title = 'navigator not allowed here';
+
+      this.sendFailure();
+    }
+  }
+
+
+  sendSuccess(postion: Position): void {
     const successData = {
       status: 'success',
-      userId: 'changed by backend: ' + this.params.userId,
-      paymentId: 'changed by backend: ' + this.params.paymentId,
+      lat: postion.coords.latitude,
+      lng: postion.coords.longitude,
       callbackUrl: this.params.callbackUrl,
     };
 
@@ -54,9 +69,7 @@ export class PaymentComponent implements OnInit {
     );
   }
 
-  returnFailure(): void {
-    console.log('failure');
-
+  sendFailure(): void {
     const failureData = {
       status: 'failure',
       callbackUrl: this.params.callbackUrl,
@@ -67,5 +80,4 @@ export class PaymentComponent implements OnInit {
       error => { console.error('error:', error); },
     );
   }
-
 }

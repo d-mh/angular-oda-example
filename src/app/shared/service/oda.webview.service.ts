@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class ODAWebviewService {
 
   constructor(
     private _http: HttpClient,
