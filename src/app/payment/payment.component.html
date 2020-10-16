@@ -1,0 +1,8 @@
+<h1>Payment page</h1>
+
+<div class="payment-data">
+  {{ params | json }}
+</div>
+
+<button style="background-color: rgb(98, 173, 98);" (click)="returnSuccess()">Success</button>
+<button style="background-color: rgb(219, 103, 108);" (click)="returnFailure()">Failure</button>
