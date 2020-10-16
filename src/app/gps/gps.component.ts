@@ -32,8 +32,8 @@ export class GpsComponent implements OnInit {
 
   setOdaParams(_params: Params): void {
     this.params = {
-      callbackUrl: _params.callbackUrl,
-      restCallbackUrl: _params.restCallbackUrl,
+      callbackUrl: _params.callbackUrl || '',
+      restCallbackUrl: _params.restCallbackUrl || '',
     };
   }
 
@@ -63,10 +63,7 @@ export class GpsComponent implements OnInit {
       callbackUrl: this.params.callbackUrl,
     };
 
-    this._service.sendDataBackToODA(this.params.restCallbackUrl, successData).subscribe(
-      success => { console.log('success:', success); },
-      error => { console.error('error:', error); },
-    );
+    this.sendDataBackToODA(successData);
   }
 
   sendFailure(): void {
@@ -75,9 +72,19 @@ export class GpsComponent implements OnInit {
       callbackUrl: this.params.callbackUrl,
     };
 
-    this._service.sendDataBackToODA(this.params.restCallbackUrl, failureData).subscribe(
-      success => { console.log('success:', success); },
-      error => { console.error('error:', error); },
+    this.sendDataBackToODA(failureData);
+  }
+
+  sendDataBackToODA(data: any): void {
+    this._service.sendDataBackToODA(this.params.restCallbackUrl, data).subscribe(
+      success => {
+        console.log('success:', success);
+        window.close();
+      },
+      error => {
+        console.error('error:', error);
+        window.close();
+      },
     );
   }
 }
