@@ -45,7 +45,10 @@ export class PaymentComponent implements OnInit {
       paymentId: 'changed by backend: ' + this.params.paymentId,
     };
 
-    this._service.sendDataBackToODA(this.params.callbackUrl, successData);
+    this._service.sendDataBackToODA(this.params.callbackUrl, successData).subscribe(
+      success => { console.log('success:', success); },
+      error => { console.error('error:', error); },
+    );
   }
 
   returnFailure(): void {
@@ -55,7 +58,10 @@ export class PaymentComponent implements OnInit {
       status: 'failure',
     };
 
-    this._service.sendDataBackToODA(this.params.callbackUrl, failureData);
+    this._service.sendDataBackToODA(this.params.callbackUrl, failureData).subscribe(
+      success => { console.log('success:', success); },
+      error => { console.error('error:', error); },
+    );
   }
 
 }
